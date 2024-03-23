@@ -36,8 +36,8 @@ export async function mathPreprocess(input: string): Promise<string> {
 	output = await replaceAsync(output, /`math ([\S\s]*?)`/g,
 			async (_: any, math: string) => `<span class="math-inline"> ${await renderAsciimath(math)} </span>`
 		)
-	output = await replaceAsync(output, /``([\S\s]*?)``/g,
-			async (_: any, math: string) => `<span class="math-inline"> ${await renderAsciimath(math)} </span>`
+	output = await replaceAsync(output, /([^`])``([^\n]*?)``([^`])/g,
+			async (_: any, before: string, math: string, after: string) => `${before} <span class="math-inline"> ${await renderAsciimath(math)} </span> ${after}`
 		)
 	return output
 }
