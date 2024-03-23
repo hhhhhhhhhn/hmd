@@ -1,0 +1,22 @@
+{
+  "ts-node": {
+	  "files": true
+  },
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "jsx": "react-jsx",
+    "noEmit": false,
+    "strict": true,
+    "moduleResolution": "node16", // Allows dynamic imports to work
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
+  },
+  "exclude": ["node_modules"]
+}

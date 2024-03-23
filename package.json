@@ -1,0 +1,26 @@
+{
+  "name": "hmd",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bun": "^1.0.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.3"
+  },
+  "dependencies": {
+    "@types/katex": "^0.16.7",
+    "asciimath-parser": "^0.6.3",
+    "katex": "^0.16.9",
+    "markdown-it": "^14.1.0",
+    "markdown-it-attrs": "^4.1.6",
+    "markdown-it-block-image": "^0.0.3",
+    "markdown-it-highlightjs": "^4.0.1",
+    "markdown-it-multimd-table": "^4.2.3"
+  }
+}

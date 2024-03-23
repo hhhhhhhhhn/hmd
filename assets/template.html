@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://latex.now.sh/style.css">
+	<title>Markdown</title>
+	<script>
+		let lastContent
+		let scrolledToBottom = false
+		setInterval(async () => {
+			let html
+			try {
+				html = await fetch(location.href).then(response => response.text())
+			} catch {
+				return
+			}
+			if (html === lastContent) {
+				return
+			}
+			console.log("Refreshing...")
+			lastContent = html
+
+			let parsed = new DOMParser().parseFromString(html, "text/html")
+			let body = parsed.querySelector("body")
+
+			document.querySelector("body").innerHTML = body.innerHTML
+			if (scrolledToBottom) {
+				window.scrollTo(0, 100000000)
+			}
+		}, 1000)
+
+		setTimeout(() => {
+			document.title = decodeURI(location.href.split("/").slice(3).join("/"))
+
+			document.addEventListener("scroll", (el) => {
+				if (document.body.scrollHeight - window.scrollY <= window.innerHeight) {
+					scrolledToBottom = true
+				} else {
+					scrolledToBottom = false
+				}
+			})
+		}, 0)
+	</script>
+</head>
+<body>
+	INSERTHERE
+</body>
+</html>
