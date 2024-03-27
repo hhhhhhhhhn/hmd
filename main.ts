@@ -1,11 +1,31 @@
 import {md} from "./md"
 import path from "path"
 import util from "util"
+// @ts-ignore
 import template from "./assets/template.html"
 import {file} from "bun"
 
+let cache: Map<string, [number|bigint, string]> = new Map()
+async function renderCached(filename: string): Promise<string | null> {
+	let markdown
+	try {
+		markdown = await Bun.file(filename).text()
+	} catch {
+		return null
+	}
+	let hash = Bun.hash(markdown)
+
+	let cached = cache.get(filename)
+	if (cached && cached[0] == hash) {
+		return cached[1]
+	}
+	let html = await md.render(markdown)
+	cache.set(filename, [hash, html])
+	return html
+}
+
 async function main() {
-	const {_,positionals} = util.parseArgs({allowPositionals: true})
+	const {values, positionals} = util.parseArgs({allowPositionals: true})
 	let folder = positionals.at(0)
 	if (!folder) {
 		console.error("No folder specified")
@@ -20,13 +40,12 @@ async function main() {
 			let url = decodeURI(request.url)
 			if (!url.includes(".")) {
 				let mdPath = url.split("/").slice(3).join("/") + ".md"
-				let content
+				let mdHtml
 				try {
-					content = await Bun.file(path.join(folder, mdPath)).text()
+					mdHtml = await renderCached(path.join(folder, mdPath))
 				} catch {
 					return new Response("Not found", {status: 404})
 				}
-				let mdHtml = await md.render(content)
 
 				let html = templateStart + mdHtml + templateEnd
 
