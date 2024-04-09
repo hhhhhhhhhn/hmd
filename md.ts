@@ -1,6 +1,7 @@
 import { mathPreprocess } from "./math"
 import { shellPreprocess } from "./shell"
 import { linksPreprocess } from "./links"
+import { svgBobPreprocess } from "./svgbob"
 
 const mdIt = require("markdown-it")({
     html: true,
@@ -15,6 +16,7 @@ export const md = {
 		let links = linksPreprocess(input)
 		let math = await mathPreprocess(links)
 		let shell = await shellPreprocess(math)
-		return mdIt.render(shell)
+		let svgbob = await svgBobPreprocess(shell)
+		return mdIt.render(svgbob)
 	}
 }

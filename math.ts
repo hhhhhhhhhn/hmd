@@ -21,6 +21,7 @@ async function am() {
 // }
 
 export async function renderAsciimath(input: string) {
+	input = input.replaceAll("\\\\", "⧹")
 	let tex = (await am()).toTex(input)
 	let html = katex.renderToString(tex, {trust: true, strict: false})
 	return html
