@@ -21,10 +21,14 @@ async function am() {
 // }
 
 export async function renderAsciimath(input: string) {
-	input = input.replaceAll("\\\\", "⧹")
-	let tex = (await am()).toTex(input)
-	let html = katex.renderToString(tex, {trust: true, strict: false})
-	return html
+	try {
+		input = input.replaceAll("\\\\", "⧹")
+		let tex = (await am()).toTex(input)
+		let html = katex.renderToString(tex, {trust: true, strict: false})
+		return html
+	} catch(e) {
+		return "<code style=\"color: red\">" + e + "</code>"
+	}
 }
 
 export async function mathPreprocess(input: string): Promise<string> {

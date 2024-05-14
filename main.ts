@@ -43,8 +43,8 @@ async function main() {
 				let mdHtml
 				try {
 					mdHtml = await renderCached(path.join(folder, mdPath))
-				} catch {
-					return new Response("Not found", {status: 404})
+				} catch (error) {
+					return new Response(String(error), {status: 500})
 				}
 
 				let html = templateStart + mdHtml + templateEnd
