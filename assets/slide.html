@@ -9,6 +9,17 @@
 	<script>
 		let lastContent
 		let scrolledToBottom = false
+
+		let currentSlide = 0
+
+		function updateSlides() {
+			[...document.querySelectorAll(".slide")]
+				.forEach((e, i) => {
+					if (i != currentSlide) e.classList.add("hidden")
+					else e.classList.remove("hidden")
+				})
+		}
+
 		setInterval(async () => {
 			let html
 			try {
@@ -26,32 +37,55 @@
 			let body = parsed.querySelector("body")
 
 			document.querySelector("body").innerHTML = body.innerHTML
-			if (scrolledToBottom) {
-				window.scrollTo(0, 100000000)
-			}
+
+			updateSlides()
 		}, 1000)
 
 		setTimeout(() => {
-			document.title = decodeURI(location.href.split("/").slice(3).join("/"))
-
-			document.addEventListener("scroll", (el) => {
-				if (document.body.scrollHeight - window.scrollY <= window.innerHeight) {
-					scrolledToBottom = true
-				} else {
-					scrolledToBottom = false
+			document.title = "Presentation: " + (new URL(location.href).pathname).split("/").at(-1)
+			document.addEventListener("keydown", (e) => {
+				switch(e.key) {
+				case "ArrowRight":
+					if (currentSlide+1 >= document.body.children.length) return
+					currentSlide++
+					updateSlides()
+					break
+				case "ArrowLeft":
+					if (currentSlide < 1) return
+					currentSlide--
+					updateSlides()
+					break
 				}
 			})
+			updateSlides()
 		}, 0)
 	</script>
 	<style>
 		body {
-			max-width: 120ch !important;
+			margin: 0;
+			padding: 0;
+		}
+		.hidden {
+			display: none !important;
+		}
+		@media print {
+			.hidden {
+				display: flex !important;
+			}
+
+			.slide { page-break-before: always; }
+			.pagebreak { page-break-before: always; }
 		}
 		.svgbob img {
 			margin: auto;
 		}
-		@media print {
-			.pagebreak { page-break-before: always; }
+		.slide {
+			height: 100vh;
+			width: 100vw;
+			flex-direction: column;
+			display: flex;
+			justify-content: center;
+			align-items: center;
 		}
 	</style>
 </head>
