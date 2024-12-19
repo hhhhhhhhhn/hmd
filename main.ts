@@ -71,7 +71,7 @@ async function main() {
 				response.headers.set("Content-Type", "text/html")
 				return response
 			}
-			return new Response("TODO")
+			return new Response(Bun.file("./" + parsedUrl.pathname))
 		},
 	})
 }

@@ -1,0 +1,18 @@
+code .hljs-keyword, code .hljs-meta {
+	color: #000;
+	font-weight: bold;
+}
+
+code .hljs-string, code .hljs-number {
+	color: #777
+}
+
+code .hljs-type {
+	color: #777;
+	font-weight: bold;
+}
+
+code .hljs-comment {
+	color: #999;
+	font-style: italic;
+}
